@@ -9,9 +9,6 @@ varId       = 44444
 #URL to address
 url = "http://127.0.0.1:5000/Webhook"
 
-# header to declare the content-Type
-headers = {"Content-Type":"application/json"}
-
 # json format data
 
 dataload = {
@@ -23,11 +20,11 @@ dataload = {
 
 
 class content:
-    def __init__(self, data, url, headers):
+    def __init__(self, data, url):
         self.data = data
         self.url = url
-        self.headers = headers
-        r = requests.post(self.url, headers=self.headers, data=json.dumps(self.data))
+        headers = {"Content-Type":"application/json"}
+        r = requests.post(self.url, headers=headers, data=json.dumps(self.data))
         print(r)
 
 
