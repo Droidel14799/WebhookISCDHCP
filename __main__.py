@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 def hook():
     data = request.json
-    print("Received webhook data:", data)
+    print(f"Die ID ist vom Kunden {data['Customer']} ist ", data['Id'])
     return jsonify({'message': 'Webhook received successfully'}), 200
  
 
