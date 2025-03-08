@@ -1,6 +1,15 @@
 import requests
 import json
 
+class content:
+    def __init__(self, data, url, headers):
+        self.data = data
+        self.url = url
+        self.headers = headers
+        r = requests.post(self.url, headers=self.headers, data=json.dumps(self.data))
+        print(r)
+
+
 #URL to address
 
 url = "http://127.0.0.1:5000/Webhook"
@@ -11,12 +20,11 @@ headers = {"Content-Type":"application/json"}
 
 # json format data
 
-data = {
+dataload = {
 "Id": 12345,
 "Customer": "David",
 "Quantity": 1,
 "Price": 19.99
 }
 
-r = requests.post(url, headers=headers, data=json.dumps(data))
-print(r)
+content(dataload, url, headers)
