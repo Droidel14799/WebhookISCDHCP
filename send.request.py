@@ -28,4 +28,4 @@ class content:
         print(r)
 
 
-content(dataload, url, headers)
+content(dataload, url)
