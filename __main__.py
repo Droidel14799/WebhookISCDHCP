@@ -10,5 +10,5 @@ def hook():
     return jsonify({'message': 'Webhook received successfully'}), 200
  
 
-if "__name__"=="__main__":
+if __name__=="__main__":
     app.run()
