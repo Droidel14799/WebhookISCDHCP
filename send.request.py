@@ -7,7 +7,7 @@ varCustomer = "David"
 varId       = 44444
 
 #URL to address
-url = "http://127.0.0.1:5000/Webhook"
+url = "http://192.168.178.48:5000/Webhook"
 
 # json format data
 
