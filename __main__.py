@@ -14,13 +14,13 @@ def check(para,regstring, config_path=config_path):
     return bool(re.search(fr"{regstring} {para};", content))
 
 def check_MAC(mac):
-     return check(mac, "hardware ethernet")
+    return check(mac, "hardware ethernet")
     
 def check_ip(ip):
-     return check(ip, "fixed-address")
+    return check(ip, "fixed-address")
 
 def check_name(name):
-     return check(name, "option host-name")
+    return check(name, "option host-name")
 
 # Beispiel-Aufruf
 def check_host(mac,ip,name):
@@ -31,11 +31,38 @@ def check_host(mac,ip,name):
          print(f"Ein Datensatz mit folgender IP: {ip} existiert bereits.")
          return False
     elif check_name(name):
-         print(f"Ein Datensatz mit folgendem Namen: {name} existiert bereits.")
+         name=f'"{name}"'
+         print(f'Ein Datensatz mit folgendem Namen: {name} existiert bereits.')
          return False
     else:
         print("Host nicht gefunden, kann hinzugefügt werden.")
         return True
+
+def update_dhcp_host(mac, ip, hostname):
+    """Ersetzt einen bestehenden Host oder fügt einen neuen hinzu."""
+    with open(config_path, "r") as file:
+        content = file.read()
+
+    # Prüfen, ob die MAC-Adresse bereits existiert
+    host_pattern = re.compile(rf"host \S+ \{{\n\s*hardware ethernet {re.escape(mac)};.*?\n\}}", re.DOTALL)
+
+    new_entry = f"""host {hostname} {{
+    hardware ethernet {mac};
+    fixed-address {ip};
+    option host-name "{hostname}";
+}}"""
+
+    if host_pattern.search(content):
+        # Ersetze bestehenden Eintrag
+        content = host_pattern.sub(new_entry, content)
+        print(f"Host {mac} aktualisiert.")
+
+    # Datei mit aktualisiertem Inhalt überschreiben
+    with open(config_path, "w") as file:
+        file.write(content)
+
+    
+    
 
 def add_dhcp_host(MAC, IP, Hostname):
         print("Adding Host")
@@ -56,7 +83,8 @@ def hook():
     MAC= data['MAC']
     Hostname= data['Hostname']
     if not check_host(MAC,IP,Hostname):
-         print("Abort...")
+         update_dhcp_host(MAC,IP,Hostname)
+              
     else:
         add_dhcp_host(MAC, IP, Hostname)
     return jsonify({'message': 'Webhook received successfully'}), 200
