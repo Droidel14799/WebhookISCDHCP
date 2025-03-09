@@ -1,21 +1,20 @@
 import requests
 import json
 
-varprice    = 16.49
-varQuantity = 2
-varCustomer = "David"
-varId       = 44444
 
+
+MAC         = "00:1A:2B:3C:4D:5E"
+IP          = "192.168.178.101"
+Hostname    = "TestHost01"
 #URL to address
-url = "http://192.168.178.48:5000/Webhook"
+url = "http://127.0.0.1:5000/Webhook"
 
 # json format data
 
 dataload = {
-"Id": varId,
-"Customer": varCustomer,
-"Quantity": varQuantity,
-"Price": varprice
+"MAC": MAC,
+"IP": IP,
+"Hostname": Hostname,
 }
 
 
